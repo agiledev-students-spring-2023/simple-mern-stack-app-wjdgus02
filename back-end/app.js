@@ -8,6 +8,8 @@ const app = express() // instantiate an Express object
 app.use(morgan('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' })) // log all incoming requests, except when in unit test mode.  morgan has a few logging default styles - dev is a nice concise color-coded style
 app.use(cors()) // allow cross-origin resource sharing
 
+app.use(express.static("public"))
+
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
@@ -78,5 +80,12 @@ app.post('/messages/save', async (req, res) => {
   }
 })
 
+app.get('/about', async (req, res) => {
+  res.json({
+    img:'/me2.png',
+    paragraph:'Hello, my name is Tony Kim. I am from South Korea and I moved to california at the age of 14. Right now I am a junior in nyu majoring in computer science. I live in Brooklyn currently and I think it is very nice here in my neighborhood. This place has many local stores and it is fun looking around to find hidden gems. I love to play video games and taking photos. I think New York is a very nice place to take photos and explore around. But sometimes it does get loud here and many places are very dirty. I would not live in New York with a family in the future tbh. I also love eating, especially korean food. But I still like trying new food around the world. Speaking of which, I want to travel the world in the future and meet many new people. As I am writing this, I am very sleepy. But I am excited to work on the project with my group soon.'
+    
+  })
+})
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!
